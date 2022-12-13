@@ -4,3 +4,6 @@ This is a simulation of the game of life by Conway.
 - Python for simulation
 - Python for backend server
 - JavaScript for client side
+## Credits
+Devaditya Chavali
+Aryadev Chavali

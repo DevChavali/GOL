@@ -27,24 +27,18 @@ def surrounding(x:int, y:int, grid:list)->list:
     x_min, x_max = lim_calc(x)
 
     cells = [[grid[j][i] for j in range(y_min, y_max)
-              if j != y or i != x]
+              if not (j == y and i == x)]
              for i in range(x_min, x_max)]
 
     return [item for sublist in cells for item in sublist]
-
-def flip_cell(grid: list, pos)->list:
-    x,y = pos
-    grid[y][x] = not grid[y][x]
-    return grid
 
 def tick_grid(grid: list)->list:
     new_grid = generate_grid(len(grid))
     for j in range(len(grid)):
         for i in range(len(grid)):
             cell = grid[j][i]
-            neighbours = surrounding(i, j, grid)
-            living = len(list(filter(lambda x: x, neighbours)))
-            if cell and (living != 2 and living != 3):
+            living = len(list(filter(lambda x: x, surrounding(i, j, grid))))
+            if cell and not (living == 2 or living == 3):
                 cell = False
             elif (not cell) and (living == 3):
                 cell = True

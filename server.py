@@ -1,19 +1,19 @@
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from http.server import SimpleHTTPRequestHandler
-import socketserver
+HOST = ''
+PORT = 8001
 
-
-class handler(SimpleHTTPRequestHandler):
-    
+class Handler(BaseHTTPRequestHandler):
+    def do_hello(self):
+        self.send_response(200)
+        self.send_header('Content-type','text/html')
+        self.end_headers()
+        # Send the html message
+        self.wfile.write(bytes(f"<p>Hello <b>{self.path[1:]}</b></p>".encode()))
     def do_GET(self):
-        self.path = 'index.html'
-        return SimpleHTTPRequestHandler.do_GET(self)
+        return self.do_hello()
 
-
-
-with socketserver.TCPServer(('192.168.0.29', 9999), handler) as httpd:
-    print('this works?')
+with HTTPServer((HOST, PORT), Handler) as httpd:
+    print(f"Running on http://{HOST}:{PORT}")
     httpd.serve_forever()
     httpd.server_close()
-
-
